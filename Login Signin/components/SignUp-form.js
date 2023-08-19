@@ -8,6 +8,21 @@ import {
 } from "../function/login-signup.js";
 import { SignInForm } from "./SignIn-form.js";
 
+//Thêm định dạng notify
+$.notify.addStyle("errol-login-signup", {
+  html: "<span><i class='bi bi-exclamation-circle-fill'></i> <span data-notify-text></span></span>",
+  classes: {
+    base: {
+      "white-space": "nowrap",
+      "background-color": "#dc3545", // Màu đỏ đậm
+      color: "#fff", // Màu chữ trắng
+      padding: "10px",
+      "border-radius": "5px",
+      "font-weight": "bold" // Đậm chữ
+    },
+  },
+});
+
 export class SignUpForm {
   render() {
     const form = document.getElementById("sign-up");
@@ -91,7 +106,10 @@ export class SignUpForm {
       if (check == 3)
         add_account(username.value, email.value, password.value, true);
       else {
-        $.notify("Tên tài khoản hoặc mật khẩu không hợp lệ");
+        $.notify("Tên tài khoản hoặc mật khẩu không hợp lệ",{
+          style: 'errol-login-signup',
+          className: 'base'
+        });
         console.log(check);
       }
     });

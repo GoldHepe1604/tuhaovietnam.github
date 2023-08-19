@@ -31,6 +31,35 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth();
 
+//Thêm định dạng notify
+$.notify.addStyle("errol-login-signup", {
+  html: "<span><i class='bi bi-exclamation-circle-fill'></i> <span data-notify-text></span></span>",
+  classes: {
+    base: {
+      "white-space": "nowrap",
+      "background-color": "#dc3545", // Màu đỏ đậm
+      color: "#fff", // Màu chữ trắng
+      padding: "10px",
+      "border-radius": "5px",
+      "font-weight": "bold" // Đậm chữ
+    },
+  },
+});
+
+$.notify.addStyle("success-login-signup", {
+  html: "<span><i class='bi bi-check-circle-fill'></i> <span data-notify-text></span></span>",
+  classes: {
+    base: {
+      "white-space": "nowrap",
+      "background-color": "#28a745", // Màu xanh lá cây đậm
+      color: "#fff", // Màu chữ trắng
+      padding: "10px",
+      "border-radius": "5px",
+      "font-weight": "bold" // Đậm chữ
+    },
+  },
+});
+
 const Sha256 = new SHA256();
 // Tạo nút bấm
 export function show_hide_pass(icon, password) {
@@ -112,7 +141,10 @@ export async function add_account(username, email, password, load_page) {
       });
       console.log(load_page);
       if (load_page) {
-        $.notify("Đăng ký thành công", "success");
+        $.notify("Đăng ký thành công", {
+          style: 'success-login-signup',
+          className: 'base'
+        });
         setTimeout(function () {
           window.location.href = "../index.html";
         }, 2000); // Độ trễ là 2000 milliseconds (2 giây)
@@ -126,23 +158,41 @@ export async function add_account(username, email, password, load_page) {
       const errorMessage = error.message;
       switch (errorCode) {
         case "auth/invalid-email":
-          $.notify("Địa chỉ email không hợp lệ. Vui lòng kiểm tra lại.");
+          $.notify("Địa chỉ email không hợp lệ. Vui lòng kiểm tra lại.", {
+            style: 'errol-login-signup',
+            className: 'base'
+          });
           return 0;
         case "auth/weak-password":
-          $.notify("Mật khẩu không hợp lệ. Vui lòng kiểm tra lại.");
+          $.notify("Mật khẩu không hợp lệ. Vui lòng kiểm tra lại.", {
+            style: 'errol-login-signup',
+            className: 'base'
+          });
           return 0;
         case "auth/email-already-in-use":
           $.notify(
-            "Tài khoản đã tồn tại. Vui lòng sử dụng địa chỉ email khác hoặc đăng nhập nếu bạn đã có tài khoản."
+            "Tài khoản đã tồn tại. Vui lòng sử dụng địa chỉ email khác hoặc đăng nhập nếu bạn đã có tài khoản.",
+            {
+              style: 'errol-login-signup',
+              className: 'base'
+            }
           );
           return 0;
         case "auth/network-request-failed":
           $.notify(
-            "Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối internet của bạn và thử lại sau."
+            "Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối internet của bạn và thử lại sau.",
+            {
+              style: 'errol-login-signup',
+              className: 'base'
+            }
           );
           return 0;
         case "auth/missing-email":
-          $.notify("Email không được để trống");
+          $.notify("Email không được để trống", {
+            style: 'errol-login-signup',
+            className: 'base'
+          });
+          return 0;
         default:
           console.log(errorMessage);
           return 0;
@@ -153,7 +203,13 @@ export async function add_account(username, email, password, load_page) {
 //Đăng nhập
 export async function check_account(email, password) {
   if (email == "Admin@123.com" && password == "Admin123") {
-    window.location.href = "../Admin page/index.html";
+    $.notify("Đăng nhập thành công", {
+      style: 'success-login-signup',
+      className: 'base'
+    });
+    setTimeout(function () {
+      window.location.href = "../Admin page/index.html";
+    }, 2000); 
     return 1;
   }
   signInWithEmailAndPassword(auth, email, password)
@@ -165,7 +221,10 @@ export async function check_account(email, password) {
       update(ref(database, "users/" + user.uid), {
         last_login: nd.toString(),
       });
-      $.notify("Đăng nhập thành công", "success");
+      $.notify("Đăng nhập thành công", {
+        style: 'success-login-signup',
+        className: 'base'
+      });
       setTimeout(function () {
         window.location.href = "../index.html";
       }, 2000); // Độ trễ là 2000 milliseconds (2 giây)
@@ -175,19 +234,35 @@ export async function check_account(email, password) {
       const errorMessage = error.message;
       switch (errorCode) {
         case "auth/invalid-email":
-          $.notify("Địa chỉ email không hợp lệ.");
+          $.notify("Địa chỉ email không hợp lệ.", {
+            style: 'errol-login-signup',
+            className: 'base'
+          });
           return 0;
         case "auth/user-disabled":
-          $.notify("Tài khoản của bạn đã bị tạm ngưng hoạt động.");
+          $.notify("Tài khoản của bạn đã bị tạm ngưng hoạt động.", {
+            style: 'errol-login-signup',
+            className: 'base'
+          });
           return 0;
         case "auth/user-not-found":
-          $.notify("Không tìm thấy người dùng với địa chỉ email này.");
+          $.notify("Không tìm thấy người dùng với địa chỉ email này.", {
+            style: 'errol-login-signup',
+            className: 'base'
+          });
           return 0;
         case "auth/wrong-password":
-          $.notify("Mật khẩu không đúng.");
+          $.notify("Mật khẩu không đúng.", {
+            style: 'errol-login-signup',
+            className: 'base'
+          });
           return 0;
         case "auth/missing-password":
-          $.notify("Hãy nhập mật khẩu.");
+          $.notify("Hãy nhập mật khẩu.", {
+            style: 'errol-login-signup',
+            className: 'base'
+          });
+          return 0;
         default:
           console.log(errorMessage);
           return 0;
