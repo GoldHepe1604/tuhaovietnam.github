@@ -12,7 +12,7 @@ const pageTravel = new Travel();
 pageHome.render();
 
 document.getElementById("Logout").addEventListener("click", () => {
-  window.location.href = "../Login Signin/index.html";
+  window.location.href = "./Login Signin/index.html";
 });
 
 document.getElementById("home").addEventListener("click", () => {

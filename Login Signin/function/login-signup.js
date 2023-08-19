@@ -114,7 +114,7 @@ export async function add_account(username, email, password, load_page) {
       if (load_page) {
         $.notify("Đăng ký thành công", "success");
         setTimeout(function () {
-          window.location.href = "../../index.html";
+          window.location.href = "../index.html";
         }, 2000); // Độ trễ là 2000 milliseconds (2 giây)
       } else {
         $.notify("Tạo tài khoản mới thành công", "success");
@@ -153,7 +153,7 @@ export async function add_account(username, email, password, load_page) {
 //Đăng nhập
 export async function check_account(email, password) {
   if (email == "Admin@123.com" && password == "Admin123") {
-    window.location.href = "../../Admin page/index.html";
+    window.location.href = "../Admin page/index.html";
     return 1;
   }
   signInWithEmailAndPassword(auth, email, password)
@@ -167,7 +167,7 @@ export async function check_account(email, password) {
       });
       $.notify("Đăng nhập thành công", "success");
       setTimeout(function () {
-        window.location.href = "../../index.html";
+        window.location.href = "../index.html";
       }, 2000); // Độ trễ là 2000 milliseconds (2 giây)
     })
     .catch((error) => {
@@ -195,5 +195,3 @@ export async function check_account(email, password) {
       console.log(email, password);
     });
 }
-
-export async function deleteAccount(email) {}

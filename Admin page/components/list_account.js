@@ -149,7 +149,11 @@ export class list_account {
       const email = document.getElementById("email");
       const password = document.getElementById("password");
 
-      add_account(username.value, email.value, password.value, 0);
+      if(add_account(username.value, email.value, password.value, 0)){
+        username.value = "";
+        email.value = "";
+        password.value = "";
+      };
     });
   }
 }
